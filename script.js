@@ -4,11 +4,11 @@ const modalShow = document.getElementById('show-modal');
 const modalClose = document.getElementById('close-modal');
 const bookmarkForm = document.getElementById('bookmark-form');
 const websiteNameEl = document.getElementById('website-name');
-const websiteUrlEl = document.getElementById('website-URL');
+const websiteUrlEl = document.getElementById('website-url');
 const bookmarksContainer = document.getElementById('bookmarks-container');
 
 //create array to implement localstorage
-let bookmarks = [];
+let bookmarks = {};
 
 //Show Modal, Focus, Input
 function showModal() {

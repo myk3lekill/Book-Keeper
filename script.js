@@ -7,6 +7,9 @@ const websiteNameEl = document.getElementById('website-name');
 const websiteUrlEl = document.getElementById('website-URL');
 const bookmarksContainer = document.getElementById('bookmarks-container');
 
+//create array to implement localstorage
+let bookmarks = [];
+
 //Show Modal, Focus, Input
 function showModal() {
     console.log('shownmodal')
@@ -35,6 +38,24 @@ function validate(nameValue, urlValue) {
     return true;
 }
 
+//Fetch bookmark from local storage
+function fetchBookmarks() {
+    //Get bookmarks from local storage if available
+    if (localStorage.getItem('bookmarks')) {
+        bookmarks = JSON.parse(localStorage.getItem('bookmarks'));//Use JSON.parse() method
+    } else {
+        //Create bookmarks array in local storage
+        bookmarks = [
+            {
+                name: 'Jacinto Design',
+                url: 'https://jacinto.design'
+            },
+        ];
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    }
+    console.log(bookmarks)
+}
+
 function storeBookmark(e) {
     e.preventDefault();
     //console.log(e);//console log the event on submit
@@ -47,7 +68,20 @@ function storeBookmark(e) {
     if(!validate(nameValue, urlValue)) {
         return false;
     }
+    const bookmark = {
+        name: nameValue,
+        url: urlValue
+    };
+    bookmarks.push(bookmark);
+    //console.log(bookmarks);
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));//save array in local storage with setITem method. using JSON.stringify to avoid object objec problem
+    fetchBookmarks();
+    bookmarkForm.reset();
+    websiteNameEl.focus();
 }
 
 //Event Listener
 bookmarkForm.addEventListener('submit', storeBookmark)//Remember: a form refresh at submit so we have to add a preventDefault method to event connect to the function storeBookmark
+
+//On Load
+fetchBookmarks();

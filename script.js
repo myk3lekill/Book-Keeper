@@ -2,7 +2,7 @@
 const modal = document.getElementById('modal');
 const modalShow = document.getElementById('show-modal');
 const modalClose = document.getElementById('close-modal');
-const bookmarkForm = document.getElementById('bookmark-modal');
+const bookmarkForm = document.getElementById('bookmark-form');
 const websiteNameEl = document.getElementById('website-name');
 const websiteUrlEl = document.getElementById('website-URL');
 const bookmarksContainer = document.getElementById('bookmarks-container');
@@ -40,6 +40,8 @@ function validate(nameValue, urlValue) {
 
 //Build Bookmarks DOM
 function buildBookmarks() {
+    //Remove all bookmark elements
+    bookmarksContainer.textContent = '';
     //Build items
     bookmarks.forEach((bookmark) => {
         const { name, url } = bookmark;
@@ -89,6 +91,18 @@ function fetchBookmarks() {
     buildBookmarks();
 }
 
+//Delete Bookmark
+function deleteBookmark(url) {
+    bookmarks.forEach((bookmark, i) => {
+        if (bookmark.url === url) {
+            bookmarks.splice(i, 1);
+        }
+    });
+    //Update bookmarks array to localstorage, re populate the DOM
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    fetchBookmarks();
+}
+
 //Handle data from form
 function storeBookmark(e) {
     e.preventDefault();
@@ -98,7 +112,7 @@ function storeBookmark(e) {
     if (!urlValue.includes('http://', 'https://')) {
         urlValue = `https://${urlValue}`
     }
-    console.log(nameValue, urlValue);
+    //console.log(nameValue, urlValue);
     if(!validate(nameValue, urlValue)) {
         return false;
     }

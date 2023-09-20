@@ -104,9 +104,9 @@ function storeBookmark(e) {
 	e.preventDefault();
 	const nameValue = websiteNameEl.value;
 	let urlValue = websiteUrlEl.value;
-	if (!urlValue.includes('http://', 'https://')) {
-		urlValue = `https://${urlValue}`;
-	}
+	if (!urlValue.includes('https://') && !urlValue.includes('http://')) {
+		urlValue = `https://${urlValue}`; 
+   }
 	// Validate
 	if (!validate(nameValue, urlValue)) {
 		return false;
